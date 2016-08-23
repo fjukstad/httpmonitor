@@ -4,7 +4,7 @@ fan. Handles both GET and POST endpoints.
 
 Made over a couple of beers so use with caution. 
 
-# Example
+# example
 
 ```
 package main
@@ -17,10 +17,16 @@ import (
 )
 
 func main() {
-	s := httpmonitor.Service{"google.com", "GET", "", "", 1 *
-		time.Minute, time.Time{}}
-	m := httpmonitor.Monitor{"to@example.com", "from@example.com",
-		"from-password", []httpmonitor.Service{s}}
+	s := httpmonitor.Service{"google.com",
+		"GET",
+		"",
+		"",
+		1 * time.Minute,
+		time.Time{}}
+	m := httpmonitor.Monitor{"to@example.com",
+		"from@example.com",
+		"from-password",
+		[]httpmonitor.Service{s}}
 
 	err := m.Run()
 	fmt.Println(err)
