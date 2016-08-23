@@ -5,6 +5,10 @@ fan. Handles both GET and POST endpoints.
 Made over a couple of beers so use with caution. 
 
 # example
+The following example checks that [http://google.com](http://google.com) is up
+and running once every minute. If it goes down it will send an e-mail to
+`to@example.com` from `from@example.com` with an appropriate message describing
+what went wrong. 
 
 ```
 package main
