@@ -21,12 +21,7 @@ import (
 )
 
 func main() {
-	s := httpmonitor.Service{"google.com",
-		"GET",
-		"",
-		"",
-		1 * time.Minute,
-		time.Time{}}
+	s := httpmonitor.NewGetService("google.com", 1*time.Minute)
 	m := httpmonitor.Monitor{"to@example.com",
 		"from@example.com",
 		"from-password",
@@ -35,4 +30,5 @@ func main() {
 	err := m.Run()
 	fmt.Println(err)
 }
+
 ```

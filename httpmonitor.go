@@ -27,6 +27,14 @@ type Service struct {
 	DownSince time.Time
 }
 
+func NewGetService(address string, frequency time.Duration) Service {
+	return Service{address, "GET", "", "", frequency, time.Time{}}
+}
+
+func NewPostService(address, body, bodyType string, frequency time.Duration) Service {
+	return Service{address, "POST", body, bodyType, frequency, time.Time{}}
+}
+
 func (m *Monitor) Run() error {
 	errCh := make(chan error)
 	for _, s := range m.Services {
@@ -55,8 +63,13 @@ func (m *Monitor) SendNotification(s *Service, message string) error {
 	pass := m.Password
 	to := m.ToEmail
 
+	// if it's the first time we notice the service is down, send a
+	// notification. If not don't send anything, we wouldn't like to drown
+	// anyone in notifications.
 	if s.DownSince.IsZero() {
 		s.DownSince = time.Now()
+	} else {
+		return nil
 	}
 
 	timestring := s.DownSince.Format("2.1.2006 15:04:05")
@@ -108,6 +121,7 @@ func (s *Service) Check() (string, error) {
 		return "", errors.Wrap(err, "empty response body")
 	}
 
+	// resetting service down timestamp.
 	s.DownSince = time.Time{}
 
 	return string(body), nil
